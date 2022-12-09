@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_exception_handler/tcrash_reported.dart';
+import 'package:flutter_exception_handler/tcrash_reporter.dart';
 import 'package:flutter_exception_handler/telegram_bot_sender.dart';
 
 void main() {
   var url = "https://api.telegram.org/bot{apiToken}/sendMessage";
-  TCrashReporter().scope(() {
+  var reporter = TCrashReporter();
+  reporter.init('botToken', 'chatId');
+  reporter.scope(() {
     runApp(const MyApp());
   });
 }

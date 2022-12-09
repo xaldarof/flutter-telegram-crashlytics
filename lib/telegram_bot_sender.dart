@@ -8,23 +8,24 @@ import 'package:platform_info_lib/ex.dart';
 
 class TelegramBotSender {
   final DioClient _client = DioClient();
-  String botToken = "";
-  String chatId = "";
+  final DeviceInfo _device = DeviceInfo();
 
-  void setUp(String botToken, String chatId) async {
-    this.botToken = botToken;
-    this.chatId = chatId;
-  }
+  final String botToken;
+  final String chatId;
 
   void sendReport(String message) async {
     assert(chatId.isNotEmpty);
     assert(botToken.isNotEmpty);
-    var device = DeviceInfo();
     _client.post("bot$botToken/sendMessage",
         data: ReportModel(
                 chartId: chatId,
                 text:
-                    "${await device.getDeviceInfo()}\n\n\n\n==================    \n\n$message")
+                    "${await _device.getDeviceInfo()}\n\n\n\n==================    \n\n$message")
             .toJson());
   }
+
+  TelegramBotSender({
+    required this.botToken,
+    required this.chatId,
+  });
 }
