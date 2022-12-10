@@ -6,13 +6,11 @@ import 'package:flutter_exception_handler/cache/lib_database.dart';
 import 'package:flutter_exception_handler/di/lib_di.dart';
 import 'package:flutter_exception_handler/telegram_bot_sender.dart';
 
-import 'models/report_model.dart';
+import 'models/report_remote_model.dart';
 
 class TCrashReporter {
   TelegramBotSender? _telegramBotSender;
   final LibDatabase _database = injector.get<LibDatabase>();
-
-  void setUp(String botToken, String chatId) async {}
 
   void init(String botToken, String chatId) {
     _telegramBotSender = TelegramBotSender(botToken: botToken, chatId: chatId);
@@ -20,7 +18,7 @@ class TCrashReporter {
 
   void scope(Function runApp) async {
     assert(_telegramBotSender != null);
-    await _sync();
+    _sync();
     runZonedGuarded(() {
       WidgetsFlutterBinding.ensureInitialized();
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
@@ -53,7 +51,7 @@ class TCrashReporter {
         element.date,
         cacheIt: (a, b) {},
         onSuccessSync: () async {
-          await _database.reportCacheModel.deleteOne(element);
+          await _database.deleteReport(element.id);
         },
       );
     }

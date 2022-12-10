@@ -1,4 +1,4 @@
-import 'package:flutter_exception_handler/models/report_model.dart';
+import 'package:flutter_exception_handler/models/report_remote_model.dart';
 import 'package:flutter_exception_handler/networking.dart';
 import 'package:flutter_exception_handler/utils/device_info.dart';
 
