@@ -11,7 +11,11 @@ import 'cache/lib_database.dart';
 void main() async {
   initDependencies();
   var reporter = TCrashReporter();
-  reporter.init('5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA', "827790539");
+  var testChatId = "827790539";
+  var testBotToken = "5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA";
+
+  reporter.init(testBotToken, testChatId);
+
   reporter.scope(() {
     runApp(const MyApp());
   });
