@@ -1,6 +1,6 @@
-import 'package:flutter_exception_handler/models/report_remote_model.dart';
-import 'package:flutter_exception_handler/networking.dart';
-import 'package:flutter_exception_handler/utils/device_info.dart';
+import 'package:flutter_telegram_crashlytics/models/report_remote_model.dart';
+import 'package:flutter_telegram_crashlytics/networking.dart';
+import 'package:flutter_telegram_crashlytics/utils/device_info.dart';
 
 class TelegramBotSender {
   final DioClient _client = DioClient();

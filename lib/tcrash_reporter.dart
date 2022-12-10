@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_exception_handler/cache/lib_database.dart';
-import 'package:flutter_exception_handler/di/lib_di.dart';
-import 'package:flutter_exception_handler/telegram_bot_sender.dart';
+import 'package:flutter_telegram_crashlytics/cache/lib_database.dart';
+import 'package:flutter_telegram_crashlytics/di/lib_di.dart';
+import 'package:flutter_telegram_crashlytics/telegram_bot_sender.dart';
 
 import 'models/report_remote_model.dart';
 
