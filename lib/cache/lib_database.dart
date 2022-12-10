@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_exception_handler/models/report_cache_model.dart';
+import 'package:flutter_exception_handler/models/report_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -16,6 +17,13 @@ class LibDatabase extends _$LibDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  Future<void> insertReport(
+      String date, String exception, String deviceInfo) async {
+    var insert = into(reportCacheModel);
+    insert.insert(ReportCacheModelCompanion.insert(
+        date: date, exception: exception, deviceInfo: deviceInfo));
+  }
 }
 
 LazyDatabase _openConnection() {

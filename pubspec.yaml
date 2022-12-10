@@ -46,7 +46,8 @@ dependencies:
   json_annotation: ^4.7.0
   device_info_plus: ^8.0.0
   platform_info_lib: ^0.0.2
-
+  get_it: ^7.2.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

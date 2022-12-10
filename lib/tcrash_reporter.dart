@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_exception_handler/cache/lib_database.dart';
+import 'package:flutter_exception_handler/di/lib_di.dart';
 import 'package:flutter_exception_handler/telegram_bot_sender.dart';
 
 import 'models/report_model.dart';
 
 class TCrashReporter {
   TelegramBotSender? _telegramBotSender;
-  final LibDatabase _database = LibDatabase();
+  final LibDatabase _database = injector.get<LibDatabase>();
 
   void setUp(String botToken, String chatId) async {}
 
