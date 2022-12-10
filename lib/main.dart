@@ -17,12 +17,12 @@ void main() async {
   reporter.init(testBotToken, testChatId);
 
   reporter.scope(() {
-    runApp(const MyApp());
+    runApp(const TCrashReporterExampleApp());
   });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class TCrashReporterExampleApp extends StatelessWidget {
+  const TCrashReporterExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
