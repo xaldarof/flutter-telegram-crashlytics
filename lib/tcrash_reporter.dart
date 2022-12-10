@@ -1,10 +1,15 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_exception_handler/cache/lib_database.dart';
 import 'package:flutter_exception_handler/telegram_bot_sender.dart';
+
+import 'models/report_model.dart';
 
 class TCrashReporter {
   TelegramBotSender? _telegramBotSender;
+  final LibDatabase _database = LibDatabase();
 
   void setUp(String botToken, String chatId) async {}
 
@@ -12,18 +17,44 @@ class TCrashReporter {
     _telegramBotSender = TelegramBotSender(botToken: botToken, chatId: chatId);
   }
 
-  void scope(Function runApp) {
+  void scope(Function runApp) async {
     assert(_telegramBotSender != null);
+    await _sync();
     runZonedGuarded(() {
       WidgetsFlutterBinding.ensureInitialized();
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
-        print("log on error: ${errorDetails.exception.toString()}");
-        _telegramBotSender?.sendReport(errorDetails.exception.toString());
+        _sendReport(errorDetails.exception.toString());
       };
       runApp.call();
     }, (error, stackTrace) {
-      _telegramBotSender?.sendReport(stackTrace.toString());
-      print("log error : ${stackTrace.toString()}");
+      _sendReport(stackTrace.toString());
     });
+  }
+
+  void _sendReport(String message) async {
+    var insert = _database.into(_database.reportCacheModel);
+    _telegramBotSender?.sendReport(message, DateTime.now().toIso8601String(),
+        cacheIt: (ReportModel data, String deviceInfo) {
+      insert.insert(ReportCacheModelCompanion.insert(
+          date: DateTime.now().toIso8601String(),
+          exception: message,
+          deviceInfo: deviceInfo));
+    });
+  }
+
+  Future<void> _sync() async {
+    var notSyncedTable = _database.select(_database.reportCacheModel);
+    var notSyncedList = await notSyncedTable.get();
+    await _database.select(_database.reportCacheModel).get();
+    for (var element in notSyncedList) {
+      _telegramBotSender?.sendReport(
+        element.exception,
+        element.date,
+        cacheIt: (a, b) {},
+        onSuccessSync: () async {
+          await _database.reportCacheModel.deleteOne(element);
+        },
+      );
+    }
   }
 }

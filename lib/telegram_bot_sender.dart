@@ -1,10 +1,6 @@
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_exception_handler/models/report_model.dart';
 import 'package:flutter_exception_handler/networking.dart';
 import 'package:flutter_exception_handler/utils/device_info.dart';
-import 'package:platform_info_lib/ex.dart';
 
 class TelegramBotSender {
   final DioClient _client = DioClient();
@@ -13,15 +9,23 @@ class TelegramBotSender {
   final String botToken;
   final String chatId;
 
-  void sendReport(String message) async {
+  void sendReport(String message, String date,
+      {required Function(ReportModel data, String deviceInfo) cacheIt,
+      Function? onSuccessSync}) async {
     assert(chatId.isNotEmpty);
     assert(botToken.isNotEmpty);
-    _client.post("bot$botToken/sendMessage",
-        data: ReportModel(
-                chartId: chatId,
-                text:
-                    "${await _device.getDeviceInfo()}\n\n\n\n==================    \n\n$message")
-            .toJson());
+    var deviceInfo = await _device.getDeviceInfo();
+    var data = ReportModel(
+        chartId: chatId,
+        text:
+            "$deviceInfo\n\n\n\n==================    \n\n$message \n\n\n$date");
+    try {
+      var response =
+          await _client.post("bot$botToken/sendMessage", data: data.toJson());
+      if (response.isSuccessful) onSuccessSync?.call();
+    } catch (e) {
+      cacheIt.call(data, deviceInfo);
+    }
   }
 
   TelegramBotSender({

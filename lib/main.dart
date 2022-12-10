@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_exception_handler/tcrash_reporter.dart';
 import 'package:flutter_exception_handler/telegram_bot_sender.dart';
 
-void main() {
-  var url = "https://api.telegram.org/bot{apiToken}/sendMessage";
+import 'cache/lib_database.dart';
+
+void main() async {
   var reporter = TCrashReporter();
   reporter.init('botToken', 'chatId');
   reporter.scope(() {
