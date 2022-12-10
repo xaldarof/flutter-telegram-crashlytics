@@ -9,9 +9,9 @@ import 'package:flutter_exception_handler/telegram_bot_sender.dart';
 import 'cache/lib_database.dart';
 
 void main() async {
-  initDependencies();
+  initDependencies();g
   var reporter = TCrashReporter();
-  var testChatId = "827790539";
+  var testChatId = "-1001608228640";
   var testBotToken = "5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA";
 
   reporter.init(testBotToken, testChatId);
