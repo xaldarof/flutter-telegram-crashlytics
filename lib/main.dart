@@ -1,19 +1,12 @@
-import 'dart:async';
-
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_telegram_crashlytics/di/lib_di.dart';
 import 'package:flutter_telegram_crashlytics/tcrash_reporter.dart';
-import 'package:flutter_telegram_crashlytics/telegram_bot_sender.dart';
-
-import 'cache/lib_database.dart';
 
 void main() async {
   var reporter = TCrashReporter();
   var testChatId = "-1001608228640";
   var testBotToken = "5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA";
 
-  reporter.init(testBotToken, testChatId);
+  reporter.initialize(testBotToken, testChatId);
   reporter.scope(() {
     runApp(const TCrashReporterExampleApp());
   });
@@ -58,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _throwTestException,
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

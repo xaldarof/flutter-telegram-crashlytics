@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_telegram_crashlytics/cache/lib_database.dart';
 import 'package:flutter_telegram_crashlytics/di/lib_di.dart';
+import 'package:flutter_telegram_crashlytics/service/lib_background_service.dart';
 import 'package:flutter_telegram_crashlytics/telegram_bot_sender.dart';
 
 import 'models/report_remote_model.dart';
@@ -10,16 +11,23 @@ import 'models/report_remote_model.dart';
 class TCrashReporter {
   TelegramBotSender? _telegramBotSender;
 
-  void init(String botToken, String chatId) {
+  void initialize(String botToken, String chatId) {
     _telegramBotSender = TelegramBotSender(botToken: botToken, chatId: chatId);
+  }
+
+  void initializeDatabase() {
+    injector.registerSingleton<LibDatabase>(LibDatabase());
   }
 
   void scope(Function runApp) async {
     assert(_telegramBotSender != null);
     runZonedGuarded(() {
       WidgetsFlutterBinding.ensureInitialized();
-      injector.registerSingleton<LibDatabase>(LibDatabase());
-      _sync();
+      TBackgroundService()
+        ..initialize()
+        ..start();
+      initializeDatabase();
+      sync();
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
         _sendReport(errorDetails.stack.toString().substring(
             0, (errorDetails.exception.toString().length / 3).round()));
@@ -46,7 +54,7 @@ class TCrashReporter {
     });
   }
 
-  Future<void> _sync() async {
+  Future<void> sync() async {
     final LibDatabase database = injector.get<LibDatabase>();
     var notSyncedTable = database.select(database.reportCacheModel);
     var notSyncedList = await notSyncedTable.get();
