@@ -35,7 +35,7 @@ Example exception report
 If user is not connected to the internet,all exceptions will be cached while connection will not
 available on this device, also library will check connection every 3 hours to try sync data.
 
-I would be very happy if you give me your own suggestion.
+I would be very happy if you give me your own suggestion: 
 ([Twitter](https://www.twitter.com/xaldarof))
 ([Instagram](https://www.instagram.com/xaldarof))
 ([Telegram](https://www.t.me/xaldarof))
