@@ -19,10 +19,11 @@ class TCrashReporter {
     injector.registerSingleton<LibDatabase>(LibDatabase());
   }
 
-  void scope(Function runApp) async {
+  void scope(Function runApp, {Function? afterWidgetsFlutterInitialized}) async {
     assert(_telegramBotSender != null);
     runZonedGuarded(() {
       WidgetsFlutterBinding.ensureInitialized();
+      afterWidgetsFlutterInitialized?.call();
       TBackgroundService()
         ..initialize()
         ..start();
