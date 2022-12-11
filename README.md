@@ -20,4 +20,4 @@ void main() async {
 ```
 
 
-![alt text](https://github.com/xaldarof/flutter-telegram-crashlytics/blob/main/assets/group_rounded1.png)
+![alt text](https://github.com/xaldarof/flutter-telegram-crashlytics/blob/main/assets/report_image.png)
