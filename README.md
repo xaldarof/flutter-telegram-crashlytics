@@ -20,14 +20,20 @@ void main() async {
 
 ```
 
-1) You will get reports like this:
-2) All information about device
+You will get reports like this:
+1) All information about device
+2) Exception message
 3) Date
 
-[Exception message]
 
+Example exception report :
 ![alt text](https://github.com/xaldarof/flutter-telegram-crashlytics/blob/main/assets/report_image.png)
 
 If user is not connected to the internet,all exceptions will be cached while connection will not
 available on this device, also library will check connection every 3 hours to try sync data.
+
+I would be very happy if you give me your own suggestion.
+([Twitter](https://www.twitter.com/xaldarof))
+([Insta](https://www.instagram.com/xaldarof))
+([Telegramg](https://www.t.me/xaldarof))
 
