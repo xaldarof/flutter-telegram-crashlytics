@@ -8,6 +8,7 @@ class DeviceInfo {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
       androidInfo.data.forEach((key, value) {
         info += "[$key]  $value\n";
       });

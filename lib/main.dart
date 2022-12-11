@@ -9,13 +9,11 @@ import 'package:flutter_telegram_crashlytics/telegram_bot_sender.dart';
 import 'cache/lib_database.dart';
 
 void main() async {
-  initDependencies();
   var reporter = TCrashReporter();
   var testChatId = "-1001608228640";
   var testBotToken = "5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA";
 
   reporter.init(testBotToken, testChatId);
-
   reporter.scope(() {
     runApp(const TCrashReporterExampleApp());
   });
@@ -46,8 +44,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final LibDatabase database = injector.get<LibDatabase>();
-
   void _throwTestException() async {
     throw Exception("error");
   }

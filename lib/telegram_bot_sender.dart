@@ -14,11 +14,11 @@ class TelegramBotSender {
       Function? onSuccessSync}) async {
     assert(chatId.isNotEmpty);
     assert(botToken.isNotEmpty);
-    var deviceInfo = await _device.getDeviceInfo();
+    var deviceInfo = (await _device.getDeviceInfo());
+    var clipped = deviceInfo.substring(0, (deviceInfo.length / 3).round());
     var data = ReportModel(
         chartId: chatId,
-        text:
-            "$deviceInfo\n\n\n\n==================    \n\n$message \n\n\n$date");
+        text: "$clipped\n\n\n\n====================\n\n\n$message \n\n\n$date");
     try {
       var response =
           await _client.post("bot$botToken/sendMessage", data: data.toJson());

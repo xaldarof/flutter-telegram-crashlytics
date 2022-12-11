@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_telegram_crashlytics/cache/lib_database.dart';
 import 'package:flutter_telegram_crashlytics/di/lib_di.dart';
@@ -10,7 +9,6 @@ import 'models/report_remote_model.dart';
 
 class TCrashReporter {
   TelegramBotSender? _telegramBotSender;
-  final LibDatabase _database = injector.get<LibDatabase>();
 
   void init(String botToken, String chatId) {
     _telegramBotSender = TelegramBotSender(botToken: botToken, chatId: chatId);
@@ -18,40 +16,48 @@ class TCrashReporter {
 
   void scope(Function runApp) async {
     assert(_telegramBotSender != null);
-    _sync();
     runZonedGuarded(() {
       WidgetsFlutterBinding.ensureInitialized();
+      injector.registerSingleton<LibDatabase>(LibDatabase());
+      _sync();
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
-        _sendReport(errorDetails.exception.toString());
+        _sendReport(errorDetails.stack.toString().substring(
+            0, (errorDetails.exception.toString().length / 3).round()));
       };
       runApp.call();
     }, (error, stackTrace) {
-      _sendReport(stackTrace.toString());
+      _sendReport(stackTrace
+          .toString()
+          .substring(0, (stackTrace.toString().length / 3).round()));
     });
   }
 
   void _sendReport(String message) async {
-    var insert = _database.into(_database.reportCacheModel);
+    final LibDatabase database = injector.get<LibDatabase>();
+    var insert = database.into(database.reportCacheModel);
     _telegramBotSender?.sendReport(message, DateTime.now().toIso8601String(),
         cacheIt: (ReportModel data, String deviceInfo) {
       insert.insert(ReportCacheModelCompanion.insert(
           date: DateTime.now().toIso8601String(),
           exception: message,
           deviceInfo: deviceInfo));
+    }, onSuccessSync: () {
+      //
     });
   }
 
   Future<void> _sync() async {
-    var notSyncedTable = _database.select(_database.reportCacheModel);
+    final LibDatabase database = injector.get<LibDatabase>();
+    var notSyncedTable = database.select(database.reportCacheModel);
     var notSyncedList = await notSyncedTable.get();
-    await _database.select(_database.reportCacheModel).get();
+    await database.select(database.reportCacheModel).get();
     for (var element in notSyncedList) {
       _telegramBotSender?.sendReport(
         element.exception,
         element.date,
         cacheIt: (a, b) {},
         onSuccessSync: () async {
-          await _database.deleteReport(element.id);
+          await database.deleteReport(element.id);
         },
       );
     }
