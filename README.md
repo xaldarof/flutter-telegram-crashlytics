@@ -26,8 +26,11 @@ You will get reports like this:
 3) Date
 
 
-Example exception report :
+Example exception report
+
+
 ![alt text](https://github.com/xaldarof/flutter-telegram-crashlytics/blob/main/assets/report_image.png)
+
 
 If user is not connected to the internet,all exceptions will be cached while connection will not
 available on this device, also library will check connection every 3 hours to try sync data.
