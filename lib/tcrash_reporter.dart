@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_telegram_crashlytics/cache/lib_database.dart';
@@ -19,14 +20,19 @@ class TCrashReporter {
     injector.registerSingleton<LibDatabase>(LibDatabase());
   }
 
-  void scope(Function runApp, {Function? afterWidgetsFlutterInitialized}) async {
-    assert(_telegramBotSender != null);
-    runZonedGuarded(() {
-      WidgetsFlutterBinding.ensureInitialized();
-      afterWidgetsFlutterInitialized?.call();
+  void _initializeService() {
+    if (Platform.isAndroid || Platform.isIOS) {
       TBackgroundService()
         ..initialize()
         ..start();
+    }
+  }
+
+  void scope(Function runApp, {required Function() initialize}) async {
+    assert(_telegramBotSender != null);
+    runZonedGuarded(() {
+      initialize.call();
+      _initializeService();
       initializeDatabase();
       sync();
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
