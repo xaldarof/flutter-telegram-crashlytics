@@ -34,6 +34,6 @@ available on this device, also library will check connection every 3 hours to tr
 
 I would be very happy if you give me your own suggestion.
 ([Twitter](https://www.twitter.com/xaldarof))
-([Insta](https://www.instagram.com/xaldarof))
-([Telegramg](https://www.t.me/xaldarof))
+([Instagram](https://www.instagram.com/xaldarof))
+([Telegram](https://www.t.me/xaldarof))
 
