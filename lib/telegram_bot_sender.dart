@@ -1,6 +1,7 @@
 import 'package:flutter_telegram_crashlytics/models/report_remote_model.dart';
 import 'package:flutter_telegram_crashlytics/networking.dart';
 import 'package:flutter_telegram_crashlytics/utils/device_info.dart';
+import 'package:flutter_telegram_crashlytics/utils/str_ext.dart';
 
 class TelegramBotSender {
   final DioClient _client = DioClient();
@@ -15,10 +16,12 @@ class TelegramBotSender {
     assert(chatId.isNotEmpty);
     assert(botToken.isNotEmpty);
     var deviceInfo = (await _device.getDeviceInfo());
-    var clipped = deviceInfo.substring(0, (deviceInfo.length / 3).round());
+    var clipped = deviceInfo.ellipsize(800);
+
     var data = ReportModel(
         chartId: chatId,
-        text: "$clipped\n\n\n\n====================\n\n\n$message \n\n\n$date");
+        text:
+            "<==============DEVICE=================> \n\n$clipped\n\n\n\n<==============ERROR=================>\n\n\n${message.ellipsize(3000)} \n\n\n$date");
     try {
       var response =
           await _client.post("bot$botToken/sendMessage", data: data.toJson());

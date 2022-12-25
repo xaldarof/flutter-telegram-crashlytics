@@ -3,3 +3,4 @@
 1.0.3 - Bug fixes
 1.0.4 - New features
 1.0.5 - Documentation
+1.0.6 - Upgrade

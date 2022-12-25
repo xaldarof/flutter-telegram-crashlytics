@@ -40,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _throwTestException() async {
-    throw Exception("error");
+    Navigator.pushNamed(context, "/fake_route");
   }
 
   @override

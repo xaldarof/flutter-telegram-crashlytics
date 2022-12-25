@@ -36,14 +36,13 @@ class TCrashReporter {
       initializeDatabase();
       sync();
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
-        _sendReport(errorDetails.stack.toString().substring(
-            0, (errorDetails.exception.toString().length / 3).round()));
+        _sendReport(errorDetails.stack.toString());
       };
       runApp.call();
     }, (error, stackTrace) {
-      _sendReport(stackTrace
-          .toString()
-          .substring(0, (stackTrace.toString().length / 3).round()));
+      _sendReport(
+        error.toString(),
+      );
     });
   }
 
