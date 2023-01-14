@@ -64,7 +64,6 @@ class TCrashReporter {
     final LibDatabase database = injector.get<LibDatabase>();
     var notSyncedTable = database.select(database.reportCacheModel);
     var notSyncedList = await notSyncedTable.get();
-    await database.select(database.reportCacheModel).get();
     for (var element in notSyncedList) {
       _telegramBotSender?.sendReport(
         element.exception,
