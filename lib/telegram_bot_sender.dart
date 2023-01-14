@@ -11,7 +11,7 @@ class TelegramBotSender {
   final String chatId;
 
   void sendReport(String message, String date,
-      {required Function(ReportModel data, String deviceInfo) cacheIt,
+      {Function(ReportModel data, String deviceInfo)? onError,
       Function? onSuccessSync}) async {
     assert(chatId.isNotEmpty);
     assert(botToken.isNotEmpty);
@@ -27,7 +27,7 @@ class TelegramBotSender {
           await _client.post("bot$botToken/sendMessage", data: data.toJson());
       if (response.isSuccessful) onSuccessSync?.call();
     } catch (e) {
-      cacheIt.call(data, deviceInfo);
+      onError?.call(data, deviceInfo);
     }
   }
 

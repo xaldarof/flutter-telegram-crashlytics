@@ -50,7 +50,7 @@ class TCrashReporter {
     final LibDatabase database = injector.get<LibDatabase>();
     var insert = database.into(database.reportCacheModel);
     _telegramBotSender?.sendReport(message, DateTime.now().toIso8601String(),
-        cacheIt: (ReportModel data, String deviceInfo) {
+        onError: (ReportModel data, String deviceInfo) {
       insert.insert(ReportCacheModelCompanion.insert(
           date: DateTime.now().toIso8601String(),
           exception: message,
@@ -68,7 +68,6 @@ class TCrashReporter {
       _telegramBotSender?.sendReport(
         element.exception,
         element.date,
-        cacheIt: (a, b) {},
         onSuccessSync: () async {
           await database.deleteReport(element.id);
         },

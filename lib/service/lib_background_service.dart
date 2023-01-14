@@ -5,19 +5,19 @@ import 'package:workmanager/workmanager.dart';
 import '../cache/lib_database.dart';
 import '../di/lib_di.dart';
 
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) {
-    var reporter = TCrashReporter();
-    reporter.initializeDatabase();
-    reporter.sync();
-    return Future.value(true);
-  });
-}
+// @pragma('vm:entry-point')
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) {
+//     var reporter = TCrashReporter.getInstance(botToken, chatId);
+//     reporter.initializeDatabase();
+//     reporter.sync();
+//     return Future.value(true);
+//   });
+// }
 
 class TBackgroundService {
   void initialize() async {
-    Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
+    // Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
   }
 
   void start() {
