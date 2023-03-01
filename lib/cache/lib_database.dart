@@ -32,8 +32,8 @@ class LibDatabase extends _$LibDatabase {
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    final dbFolder = await getApplicationSupportDirectory();
+    final file = File(p.join(dbFolder.path, 'tg_crashes.sqlite'));
     return NativeDatabase.createInBackground(file);
   });
 }

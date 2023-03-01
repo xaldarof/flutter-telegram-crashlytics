@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telegram_crashlytics/tcrash_reporter.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   var reporter = TCrashReporter();
   var testChatId = "-1001608228640";
   var testBotToken = "5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA";
 
   reporter.initialize(testBotToken, testChatId);
-  reporter.scope(() {
-    runApp(const TCrashReporterExampleApp());
-  }, initialize: () {
-    WidgetsFlutterBinding.ensureInitialized();
-  });
+  reporter.scope(
+    () {
+      runApp(const TCrashReporterExampleApp());
+    },
+  );
 }
 
 class TCrashReporterExampleApp extends StatelessWidget {

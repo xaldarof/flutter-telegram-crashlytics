@@ -28,8 +28,8 @@ class DioClient {
     return BaseOptions(
       baseUrl: _baseUrl,
       responseType: ResponseType.plain,
-      connectTimeout: 120000,
-      receiveTimeout: 120000,
+      connectTimeout: 3000,
+      receiveTimeout: 3000,
       validateStatus: (code) {
         if (code! >= 200 && code <= 400) {
           return true;

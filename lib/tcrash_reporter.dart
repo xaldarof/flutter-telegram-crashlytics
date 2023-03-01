@@ -28,10 +28,9 @@ class TCrashReporter {
     }
   }
 
-  void scope(Function runApp, {required Function() initialize}) async {
+  void scope(Function runApp) async {
     assert(_telegramBotSender != null);
     runZonedGuarded(() {
-      initialize.call();
       _initializeService();
       initializeDatabase();
       sync();
