@@ -2,6 +2,9 @@ TCrashlytics is a lightweight, realtime crash reporter that helps you track, pri
 stability issues that erode your app quality. Set your bot token and chat id to get all crash
 reports through telegram bot.
 
+[Open pub.dev](https://pub.dev/packages/flutter_telegram_crashlytics)
+
+
 ```dart
 
 void main() async {
