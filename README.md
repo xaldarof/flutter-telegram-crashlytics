@@ -15,9 +15,6 @@ void main() async {
   reporter.initialize(testBotToken, testChatId);
   reporter.scope(() {
     runApp(const TCrashReporterExampleApp());
-  }, initialize: () {
-    //[important] don't forget to add this line
-    WidgetsFlutterBinding.ensureInitialized();
   });
 }
 
