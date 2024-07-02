@@ -10,7 +10,7 @@ reports through telegram bot.
 void main() async {
   var reporter = TCrashReporter();
   var testChatId = "-1001608228640";
-  var testBotToken = "5790685024:AAHvA1nscE5-85-6N9nlWHDfl36DiS4GeUA";
+  var testBotToken = "5790685024:AAHvppoippppppppppppUA";
 
   reporter.initialize(testBotToken, testChatId);
   reporter.scope(() {
